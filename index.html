@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>Giphy Creation!</title>
+    <meta charset="UTF-8">
+    <!--Bootstrap-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <style>
+        #gifcatcher{
+            flex-wrap: wrap;
+        }
+        .jumbotron{
+            background-image: url("https://pikwizard.com/photos/cffe6d98e89a861963eb0617bddb8614-m.jpg");
+            color: white;
+        }
+        body{
+            background-image: url("assets/images/clouds.jpg")
+        }
+    </style>
+    </head>
+    
+<body>
+<div container>
+        <div class="container" id="jumbo">
+                <div class="jumbotron" class="text-center">
+                        <h1 class="display-4">Giphy Generator!</h1>
+                        <p class="lead">Use the search function to generate 10 random GIFs from a topic of your liking!</p>
+                </div>
+            </div>
+</div>
+<!--Search-->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4">
+            <p>Search the Giphy database!</p>
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="searchInput">
+            <br>
+            <button type="button" class="btn btn-primary" id="addSubject">Submit</button>
+        </div>
+
+        <!--GIF dynamically created here-->
+        <div col="col-lg-4" id="gifCatcher">Your GIFs!</div> 
+        <!--Buttons dynamically created here-->  
+        <div col="col-lg-4" id ="buttons">Buttons created here</div>
+
+        
+    </div>
+</div>
+
+
+<!--Javascript-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="assets/script.js"></script>
+</body>
+
+
+</html>
