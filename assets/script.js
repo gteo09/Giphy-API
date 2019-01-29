@@ -9,37 +9,43 @@ var searchTopics = ["burger", "sushi", "pretzel", "beer", "pasta", "wine", "chee
 function displayGifs() {
 
     var userSearch = $(this).attr("data-name");
-    var queryURL = "https://api.giphy.com/v1/gifs/random?api_key=sMbBIFdOSY8RMeb4uDjqPK1llahpCbd2&limit=10&tag="+ userSearch; //giphy API URL
+    var queryURL = "https://cors-anywhere.herokuapp.com/https://api.giphy.com/v1/gifs/search?api_key=sMbBIFdOSY8RMeb4uDjqPK1llahpCbd2&limit=10&q="+ userSearch; //giphy API URL
 
     // Creating an AJAX call for the topic button being clicked
     $.ajax({
       url: queryURL,
       method: "GET"
     }).then(function(response) {
+
         console.log(response);
       // Creating a div to hold the search topic
-      var gifDiv = $("<div class='gif'>"); //
+      //loop through array from ajax request
 
-      // Storing the rating data
-      var gifTitle = response.data.title;
+      for(var i=0; i<response.data.length; i++){
 
-      // Creating an element to have the rating displayed
-      var titleEL = $("<p>").text("Title: " + gifTitle); 
+          var gifDiv = $("<div class='gif'>"); //
 
-      // Displaying the rating
-      gifDiv.append(titleEL);
+          // Storing the rating data
+          var gifRating = response.data[i].rating;
 
-      // Retrieving the URL for the image
-      var gifURL = response.data.url;
+          // Creating an element to have the rating displayed
+          var ratingEL = $("<p>").text("Rating: " + gifRating); 
 
-      // Creating an element to hold the image
-      var image = $("<img>").attr("src", gifURL);
+          // Displaying the rating
+          gifDiv.append(ratingEL);
 
-      // Appending the image
-      gifDiv.append(image);
+          // Retrieving the URL for the image
+          var gifURL = response.data[i].images.fixed_height.url;
 
-      // Putting search results above the previous results
-      $("#gifCatcher").append(gifDiv);
+          // Creating an element to hold the image
+          var image = $("<img>").attr("src", gifURL).attr("class", "gif");
+
+          // Appending the image
+          gifDiv.append(image);
+
+          // Putting search results above the previous results
+          $("#gifCatcher").prepend(gifDiv);
+        }
     });
 
   }
@@ -70,7 +76,7 @@ function displayGifs() {
     }
   }
 
-  // This function handles events where a movie button is clicked
+  // This function handles events where submit button is clicked
   $("#addSubject").on("click", function(event) {
     event.preventDefault();
 
@@ -80,10 +86,77 @@ function displayGifs() {
     // Adding movie from the textbox to our array
     searchTopics.push(newTopic);
 
+    
+    // displayGifs();
+
+    //$("#searchInput").val("");
+
     // Calling renderButtons which handles the processing of our movie array
     makeButtons();
   });
 
+  //runs ajax call when submit button is clicked 
+  $(document).on("click", "#addSubject", searchAjax);
+
+  function searchAjax(){
+
+    console.log(this);
+    $("#addSubject").attr("data-name", $("#searchInput").val().trim());
+
+    var userSearch = $(this).attr("data-name");
+    var queryURL = "https://cors-anywhere.herokuapp.com/https://api.giphy.com/v1/gifs/search?api_key=sMbBIFdOSY8RMeb4uDjqPK1llahpCbd2&limit=10&q="+ userSearch; //giphy API URL
+
+    $.ajax({
+      url: queryURL,
+      method: "GET"
+    }).then(function(response){
+
+      console.log(response)
+
+      for(var i=0; i<response.data.length; i++){
+
+      var gifDiv = $("<div class='gif'>"); //
+
+      // Storing the rating data
+      var gifRating = response.data[i].rating;
+
+      // Creating an element to have the rating displayed
+      var ratingEL = $("<p>").text("Rating: " + gifRating); 
+
+      // Displaying the rating
+      gifDiv.append(ratingEL);
+
+      // Retrieving the URL for the image
+      var gifURL = response.data[i].images.fixed_height.url;
+
+      // Creating an element to hold the image
+      var image = $("<img>").attr("src", gifURL).attr("class", "gif");
+
+      // Appending the image
+      gifDiv.append(image);
+
+      // Putting search results above the previous results
+      $("#gifCatcher").prepend(gifDiv);
+      }
+    });
+    $("#searchInput").val("");
+  };
+
+  //on click function for starting and stopping gifs
+  $(".gif").on("click", function() {
+    // The attr jQuery method allows us to get or set the value of any attribute on our HTML element
+    var state = $(this).attr("data-state");
+    // If the clicked image's state is still, update its src attribute to what its data-animate value is.
+    // Then, set the image's data-state to animate
+    // Else set src to the data-still value
+    if (state === "still") {
+      $(this).attr("src", $(this).attr("data-animate"));
+      $(this).attr("data-state", "animate");
+    } else {
+      $(this).attr("src", $(this).attr("data-still"));
+      $(this).attr("data-state", "still");
+    }
+  });
   // Adding a click event listener to all elements with a class of gifButton
   $(document).on("click", ".gifButton", displayGifs);
 

@@ -6,15 +6,15 @@
     <!--Bootstrap-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
     <style>
-        #gifcatcher{
-            flex-wrap: wrap;
-        }
         .jumbotron{
             background-image: url("https://pikwizard.com/photos/cffe6d98e89a861963eb0617bddb8614-m.jpg");
             color: white;
         }
         body{
             background-image: url("assets/images/clouds.jpg")
+        }
+        #gifcatcher{
+            width: 100%;
         }
     </style>
     </head>
@@ -29,19 +29,28 @@
             </div>
 </div>
 <!--Search-->
-<div class="container">
+<div class="container-fluid">
     <div class="row">
-        <div class="col-lg-4">
-            <p>Search the Giphy database!</p>
+        <div class="col-sm-4">
+            <p>Search the Giphy database or click a button!</p>
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="searchInput">
             <br>
-            <button type="button" class="btn btn-primary" id="addSubject">Submit</button>
+            <button type="button" class="btn btn-primary"  id="addSubject">Submit</button>
         </div>
 
         <!--GIF dynamically created here-->
-        <div col="col-lg-4" id="gifCatcher">Your GIFs!</div> 
-        <!--Buttons dynamically created here-->  
-        <div col="col-lg-4" id ="buttons">Buttons created here</div>
+        <div col="col-sm">
+            <div id="gifCatcher"></div>
+        </div>
+
+        <!--Buttons dynamically created here--> 
+         
+            <div col="col-sm" >
+                <div class="container-fluid" id="pleasewrap">
+                 <div class="btn-group-vertical" id="buttons"></div>
+                </div>
+            </div>
+        
 
         
     </div>
